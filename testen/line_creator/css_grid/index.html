@@ -1,0 +1,84 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+
+        body {
+            height: 100%;
+            width: 100%;
+        }
+
+        .container {
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(30, 1fr) ;
+            grid-template-rows: repeat(20, 1fr);
+            height: 100%;
+            width: 100%;
+        }
+        #point1, #point2 {
+            background: red;
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        #point1 {
+            grid-column: 3;
+            grid-row: 2;
+        } 
+
+        #point2 {
+            grid-column: 15;
+            grid-row: 10;
+        }
+
+        #line {
+            position: absolute;
+            border: 1px solid black;
+        }
+        #distance {
+            position: absolute;
+        }
+
+        .buttonContainer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-items: center;
+        }
+
+        .volgendeCoordinaten {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="line"></div>
+        <div id="distance"></div>
+        <div id="point1"></div>
+        <div id="point2"></div>
+    </div>
+
+    <div  class="buttonContainer">
+        <form id="form" action="" class="volgendeCoordinaten">
+            <input type="text" id="coordinatesButton" type="text">
+            <button type="submit">Volgende set coordinaten</button>
+        </form>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+</html>
