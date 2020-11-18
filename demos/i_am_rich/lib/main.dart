@@ -4,7 +4,6 @@ void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
 
-  final src = 'images/homer.png';
   @override
   Widget build(BuildContext context) {
 
@@ -24,7 +23,7 @@ class MyApp extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image(
-                  image: AssetImage(src),
+                  image: AssetImage("assets/images/Homer_Simpson.jpg"),
                 ),
               Column(
                 children: <Widget>[
