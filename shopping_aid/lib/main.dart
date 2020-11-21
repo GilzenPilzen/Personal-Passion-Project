@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  _MyAppState createState() => _MyAppState();
+}
 
+class _MyAppState extends State<MyApp> {
   final src = 'https://picsum.photos/250?image=9';
-  @override
+
   Widget build(BuildContext context) {
 
     return MaterialApp(
@@ -82,9 +85,13 @@ class MyApp extends StatelessWidget {
                   Container(
                     alignment: Alignment.center,
                     margin: EdgeInsets.fromLTRB(0, 0, 10, 20) ,
-                    child: FloatingActionButton(
-                      child: Icon(Icons.local_activity),
-                      onPressed: null
+                    child: Builder(
+                      builder: (context) => FloatingActionButton(
+                        child: Icon(Icons.local_activity),
+                        onPressed: (){
+                          _productsOverlay(context);
+                        }
+                      ),
                     ),
                   ),
 
@@ -136,6 +143,83 @@ class MyApp extends StatelessWidget {
           ),
         )  
     );
+  }
+}
+
+void _productsOverlay(context) {
+  showModalBottomSheet(
+    context: context, 
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(25), topRight: Radius.circular(25)),),
+    isScrollControlled: true, 
+    backgroundColor: Colors.grey[800],
+    builder: (BuildContext bc) {
+    
+    return (
+      Container(
+        width: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.all(15),
+        height: 715,
+        child: (
+          Column(
+            children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(bottom: 25),
+                  decoration: BoxDecoration(
+                    borderRadius:BorderRadius.all(Radius.circular(25)),
+                    color: Colors.grey[700],
+                  ),
+                  height: 8,
+                  width: 80,
+                ),
+                Container(height: 50),
+
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius:BorderRadius.only(topLeft: Radius.circular(25), topRight: Radius.circular(25)),
+                    color: Colors.grey[800],
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      _productQuickView()
+                    ],
+                  )
+                )
+              ]
+          )
+        ),
+      )
+    );
+  });
+}
+
+// ignore: camel_case_types
+class _productQuickView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Center(
+        child: Column(
+          children: <Widget>[
+            Container(
+              decoration: BoxDecoration(
+                borderRadius:BorderRadius.all(Radius.circular(25)),
+                color: Colors.white
+              ),
+              padding: EdgeInsets.all(15),
+              margin: EdgeInsets.only(bottom: 35),
+              child: Image(
+                width: 300,
+                image: AssetImage("assets/images/cola.jpg"),
+              )
+            ),
+            Text("This is the sheet overlay", 
+              // style:  
+            ),
+          ]
+        ) 
+      )
+    );  
   }
 }
 
