@@ -1,0 +1,25 @@
+{
+    "products": [
+        {
+            "id": 1,
+            "name": "Coca-cola",
+            "price": "10.65",
+            "unit": "liters",
+            "unitprice": 2.15
+        },
+        {
+            "id": 2,
+            "name": "Coca-cola",
+            "price": "10.65",
+            "unit": "liters",
+            "unitprice": 2.15
+        },
+        {
+            "id": 3,
+            "name": "Coca-cola",
+            "price": "10.65",
+            "unit": "liters",
+            "unitprice": 2.15
+        }
+    ]
+}
