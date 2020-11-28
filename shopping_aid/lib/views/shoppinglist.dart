@@ -22,7 +22,7 @@ class _ShoppingListViewState extends State<ShoppingListView> {
             Text('Shoppina'),
             Text('€12,34')
           ] 
-        ),
+        ),   
       ),
       backgroundColor: Colors.blueGrey[800],
       

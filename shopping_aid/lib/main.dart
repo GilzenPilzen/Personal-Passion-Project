@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'shoppinglist.dart';
-
+import 'views/shoppinglist.dart';
 
 // HEAD FUNCTION
 void main() => runApp(MyApp());
