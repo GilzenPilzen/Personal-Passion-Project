@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
 import 'allproducts.dart';
 
-// ignore: must_be_immutable
-class ShoppingListView extends StatelessWidget{
-  var data;
 
-  ShoppingListView({this.data});
+// ignore: must_be_immutable
+class ShoppingListView extends StatefulWidget{
   
-  void printData() {
-    print(data);
-  }
-  
+
+  // ShoppingListView({this.data});
+  // void printData() {
+  //   print(data);
+  // }
   @override
-  Widget build(BuildContext context) {
+  _ShoppingListViewState createState() => _ShoppingListViewState();
+}
+
+class _ShoppingListViewState extends State<ShoppingListView> {
+  var products = [];
+
+  @override
+  Widget build(BuildContext context) { 
    return Scaffold(
     backgroundColor: Colors.blueGrey[800],
     appBar: AppBar(
@@ -46,7 +52,7 @@ class ShoppingListView extends StatelessWidget{
                           color: Colors.blueGrey[900],
                           child: ListTile(
                             leading: FlutterLogo(size: 56.0),
-                            title: Text(data[index]["name"], style: 
+                            title: Text(products[index]["name"], style: 
                               TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold
@@ -63,14 +69,28 @@ class ShoppingListView extends StatelessWidget{
                                 alignment: WrapAlignment.center,
                                 spacing: 12,
                                 children: <Widget>[
-                                  Text('€12,00', style: 
-                                    TextStyle(
-                                      fontSize: 20.0,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold
-                                    ),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Text(products[index]['price'], style: 
+                                        TextStyle(
+                                          fontSize: 20.0,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  Icon(Icons.delete_forever_rounded, color: Colors.red),    
+                                  IconButton(
+                                    icon: Icon(Icons.delete_forever_rounded, color: Colors.red),    
+                                    onPressed: () {
+                                      Navigator.push(context, 
+                                        MaterialPageRoute(
+                                          builder: (context) => AllProductsView()
+                                        )
+                                      );
+                                    }
+                                  )
                                 ],
                               ),    
                             ) 
@@ -80,7 +100,7 @@ class ShoppingListView extends StatelessWidget{
                     )
                   );
                 },
-                itemCount: data  == null ? 0 : data.length,
+                itemCount: products  == null ? 0 : products.length,
               )
             ),
           ),
@@ -94,15 +114,9 @@ class ShoppingListView extends StatelessWidget{
                 margin: EdgeInsets.fromLTRB(0, 0, 10, 20) ,
                 child: Builder(
                   builder: (context) => FloatingActionButton(
-                    child: Icon(Icons.local_activity),
-                    // onPressed: (){
-                    //   _productsOverlay(context);
-                    // }
+                    child: Icon(Icons.add_rounded),
                     onPressed: (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => AllProductsView()),
-                      );
+                      _awaitReturnProducts(context);
                     }
                   ),
                 ),
@@ -156,13 +170,16 @@ class ShoppingListView extends StatelessWidget{
       ),
     );
   }
-}
+  void _awaitReturnProducts(BuildContext context) async {
+    final data = await Navigator.push(context, 
+      MaterialPageRoute(
+        builder: (context) => AllProductsView()
+      )
+    );
+    
 
-// class  extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-      
-//     );
-//   }
-// }
+    setState(() {
+      products.add(data);
+    });
+  }
+}
