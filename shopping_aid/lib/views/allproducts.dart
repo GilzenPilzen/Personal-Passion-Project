@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'shoppinglist.dart';
 
 
 var myAddedProducts = [];
@@ -187,7 +188,18 @@ class _AllProductsViewState extends State<AllProductsView> {
 
 void _productsOverlay(context, products, productKey) {
   var product = products;
-  print(products);
+
+  // final data = Product(
+  //   id: product['id'],
+  //   name: product['name'],
+  //   price: product['price'],
+  //   unit: product['unit'],
+  //   weight: product['weight'],
+  //   unitprice: product['unitprice'],
+  //   description: product['description'],
+  //   amount: product['amount'],
+  // );
+  //print(products);
   showModalBottomSheet(
     context: context, 
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(25), topRight: Radius.circular(25)),),
@@ -290,8 +302,17 @@ void _productsOverlay(context, products, productKey) {
                             print("Dit product zit al in de lijst");
                           }else {
                             myAddedProducts.add(product);
+                            print(myAddedProducts);
+                            Navigator.push(context, 
+                              MaterialPageRoute(builder: 
+                                (context) => ShoppingListView(
+                                  data: myAddedProducts
+                                )
+                              ),
+                            
+                            );
                           }
-                          print(myAddedProducts);
+                          //print(myAddedProducts);
                         }, 
                         child: Text("product toevoegen".toUpperCase(),
                         style: TextStyle(

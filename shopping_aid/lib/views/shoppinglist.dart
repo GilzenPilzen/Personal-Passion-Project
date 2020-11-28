@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'allproducts.dart';
 
-class ShoppingListView extends StatefulWidget {
-  ShoppingListView(BuildContext context);
+// ignore: must_be_immutable
+class ShoppingListView extends StatelessWidget{
+  var data;
 
-  @override
-  _ShoppingListViewState createState() => _ShoppingListViewState();
-}
-
-class _ShoppingListViewState extends State<ShoppingListView> {
+  ShoppingListView({this.data});
+  
+  void printData() {
+    print(data);
+  }
+  
   @override
   Widget build(BuildContext context) {
    return Scaffold(
@@ -33,46 +35,53 @@ class _ShoppingListViewState extends State<ShoppingListView> {
           child: Padding(
             padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
             child: Container(
-              child: ListView(
-                children: <Widget> [
-                  Padding(
-                    padding: EdgeInsets.all(5.0),
-                    child: Card(  
-                      color: Colors.blueGrey[900],
-                      child: ListTile(
-                        leading: FlutterLogo(size: 56.0),
-                        title: Text("Dit is lijst item", style: 
-                          TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold
-                          ),
-                        ),
-                        subtitle: Text("2 pakken", style: 
-                          TextStyle(
-                            color: Colors.grey[400],
-                            fontWeight: FontWeight.normal
-                          ),
-                        ),
-                        trailing: 
-                            Wrap(
-                              alignment: WrapAlignment.center,
-                              spacing: 12,
-                              children: <Widget>[
-                                Text('€12,00', style: 
-                                  TextStyle(
-                                    fontSize: 20.0,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold
+              child: ListView.builder(
+                itemBuilder: (BuildContext context, int index){
+                  return(
+                    Column(
+                      children: <Widget> [
+                      Padding(
+                        padding: EdgeInsets.all(5.0),
+                        child: Card(  
+                          color: Colors.blueGrey[900],
+                          child: ListTile(
+                            leading: FlutterLogo(size: 56.0),
+                            title: Text(data[index]["name"], style: 
+                              TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold
+                              ),
+                            ),
+                            subtitle: Text("2 pakken", style: 
+                              TextStyle(
+                                color: Colors.grey[400],
+                                fontWeight: FontWeight.normal
+                              ),
+                            ),
+                            trailing: 
+                              Wrap(
+                                alignment: WrapAlignment.center,
+                                spacing: 12,
+                                children: <Widget>[
+                                  Text('€12,00', style: 
+                                    TextStyle(
+                                      fontSize: 20.0,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold
+                                    ),
                                   ),
-                                ),
-                                Icon(Icons.delete_forever_rounded, color: Colors.red),    
-                              ],
-                            ),    
-                        ) 
-                      )
-                      ),
-                ],
-              ),
+                                  Icon(Icons.delete_forever_rounded, color: Colors.red),    
+                                ],
+                              ),    
+                            ) 
+                          )
+                        ),
+                      ] 
+                    )
+                  );
+                },
+                itemCount: data  == null ? 0 : data.length,
+              )
             ),
           ),
         ),
@@ -148,3 +157,12 @@ class _ShoppingListViewState extends State<ShoppingListView> {
     );
   }
 }
+
+// class  extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+      
+//     );
+//   }
+// }
