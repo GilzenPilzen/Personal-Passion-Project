@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'addproducts.dart';
 import 'allproducts.dart';
 
 
@@ -16,6 +17,52 @@ class ShoppingListView extends StatefulWidget{
 
 class _ShoppingListViewState extends State<ShoppingListView> {
   var products = [];
+  var prices = [];
+  var totalPrice = 0.0;
+  var totalPriceString;
+  
+
+  _removePrice(index, price) {
+    setState(() {
+      prices.removeAt(index);
+      print(prices);
+    }); 
+  }
+  _printPrices() {
+    setState(() {
+      print(prices);
+    });
+    
+  }
+  _updatePrices() {
+    setState(() {
+      totalPrice = 0.0;
+      for(int i = 0; i < prices.length; i++){
+        if(!prices.contains(i)) {
+          totalPrice += prices[i];
+        }else {
+        }
+      }
+      var parsetoString = totalPrice.toString(); 
+      var changePoint = parsetoString.replaceFirst(".", ",");
+      totalPriceString = changePoint;
+
+      print(totalPriceString);
+    });
+  }
+  
+  // _printPrices() {
+  //     for(int i = 0; i < products.length; i++){
+  //       String price = products[i]["price"];
+
+  //       var changeKomma = price.replaceFirst(",", ".");
+  //       print(changeKomma);
+        
+  //       var doublePrice = double.parse(changeKomma);
+  //       prices.add(doublePrice);
+  //       print(prices);
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) { 
@@ -28,7 +75,18 @@ class _ShoppingListViewState extends State<ShoppingListView> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text('Shoppina'),
-            Text('€12,34')
+            Row(
+              children: [
+                Text('€ $totalPriceString'),
+                IconButton(
+                  icon: Icon(Icons.refresh), 
+                  onPressed: () { 
+                    _updatePrices();
+                    _printPrices();
+                  },
+                )
+              ],
+            )
           ] 
         ),   
       ),
@@ -84,11 +142,8 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                                   IconButton(
                                     icon: Icon(Icons.delete_forever_rounded, color: Colors.red),    
                                     onPressed: () {
-                                      Navigator.push(context, 
-                                        MaterialPageRoute(
-                                          builder: (context) => AllProductsView()
-                                        )
-                                      );
+                                      _removePrice(index, products[index]["price"]);
+                                      _removeProduct(products[index]);
                                     }
                                   )
                                 ],
@@ -114,8 +169,12 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                 margin: EdgeInsets.fromLTRB(0, 0, 10, 20) ,
                 child: Builder(
                   builder: (context) => FloatingActionButton(
-                    child: Icon(Icons.add_rounded),
+                    backgroundColor: Colors.blueGrey[600],
+                    child: Icon(Icons.add_rounded,
+                      size: 35
+                    ),
                     onPressed: (){
+                      _printPrices();
                       _awaitReturnProducts(context);
                     }
                   ),
@@ -124,45 +183,32 @@ class _ShoppingListViewState extends State<ShoppingListView> {
 
               Container(
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(50)),
-                  child: BottomNavigationBar(
-                    unselectedItemColor: Colors.white,
-                    backgroundColor: Colors.blueGrey[700],
-                    showUnselectedLabels: true,
-                    type: BottomNavigationBarType.fixed,
-                    items: [
-                      BottomNavigationBarItem(
-                        backgroundColor: Colors.white,
-                        icon: Icon(Icons.local_activity,
-                          color: Colors.white
-                        ),
-                        label: "Aardappel",
+                // child: ClipRRect(
+                //   borderRadius: BorderRadius.all(Radius.circular(50)),
+                //   child: 
+                // ),
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: RaisedButton(
+                    color: Colors.blue,
+                    padding: EdgeInsets.all(20),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    onPressed: () {
+                      Navigator.push(context, 
+                        MaterialPageRoute(
+                          builder: (context) => AllProductsView() 
+                        )
+                      );
+                    },
+                    child: Text('Bekijk alle producten'.toUpperCase(), style: 
+                      TextStyle(
+                        color: Colors.white
                       ),
-                      BottomNavigationBarItem(
-                        backgroundColor: Colors.white,
-                        icon: Icon(Icons.local_activity,
-                          color: Colors.white
-                        ),
-                        label: "Aardappel",
-                      ), 
-                      BottomNavigationBarItem(
-                        backgroundColor: Colors.white,
-                        icon: Icon(Icons.local_activity,
-                          color: Colors.white
-                        ),
-                        label: "Aardappel",
-                      ) ,
-                      BottomNavigationBarItem(
-                        backgroundColor: Colors.white,
-                        icon: Icon(Icons.local_activity,
-                          color: Colors.white
-                        ),
-                        label: "Aardappel",
-                      ) 
-                    ],
+                    )
                   ),
-                ),
+                )
               ),
             ],
           ),
@@ -173,13 +219,25 @@ class _ShoppingListViewState extends State<ShoppingListView> {
   void _awaitReturnProducts(BuildContext context) async {
     final data = await Navigator.push(context, 
       MaterialPageRoute(
-        builder: (context) => AllProductsView()
+        builder: (context) => AddProductsView()
       )
     );
     
-
     setState(() {
       products.add(data);
+
+      String price = data["price"];
+      var changeKomma = price.replaceFirst(",", ".");
+      print(changeKomma);
+      
+      var doublePrice = double.parse(changeKomma);
+      prices.add(doublePrice);
+    });
+  }
+
+  void _removeProduct(product){
+    setState(() {
+      products.remove(product);
     });
   }
 }

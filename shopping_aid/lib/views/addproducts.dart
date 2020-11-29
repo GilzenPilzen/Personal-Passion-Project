@@ -1,39 +1,46 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+//import 'shoppinglist.dart';
 
-class AllProductsView extends StatefulWidget {
+
+
+class AddProductsView extends StatefulWidget {
 
   @override
-  _AllProductsViewState createState() => _AllProductsViewState();
+  _AddProductsViewState createState() => _AddProductsViewState();
 }
 
-class _AllProductsViewState extends State<AllProductsView> {
+class _AddProductsViewState extends State<AddProductsView> {
   var dataJson = 'assets/data/products.json';
 
   final _searchKey = GlobalKey<FormState>();
+  // var myAddedProducts = [];
+  
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       backgroundColor: Colors.blueGrey[800],
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.blueGrey[800],
         title: Padding(
           padding: EdgeInsets.fromLTRB(5, 15, 5, 15),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text('Products'),
-              Container(
-                child: IconButton(
-                  icon: Icon(Icons.search),
-                  color: Colors.white,
-                  iconSize: 30,
-                  onPressed: () {
-                    // showSearch(context: context, delegate: Search());
-                  },
-                )
-              )
+              Text('Add a product'),
+              // Container(
+              //   child: IconButton(
+              //     icon: Icon(Icons.done_rounded),
+              //     color: Colors.blue,
+              //     iconSize: 30,
+              //     onPressed: () {
+              //       Navigator.pop(context, );
+              //     },
+              //   )
+              // )
             ] 
           ),
         ),
@@ -126,6 +133,7 @@ class _AllProductsViewState extends State<AllProductsView> {
                                       )
                                     )
                                   ),
+
                                   //
                                   Flexible(
                                     child: Padding(
@@ -174,8 +182,34 @@ class _AllProductsViewState extends State<AllProductsView> {
                                       ),
                                     ),
                                   ),
+                                  
                                 ]
-                              ),  
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(top: 15),
+                                child: SizedBox(
+                                   width: 500,
+                                    child : RaisedButton(
+                                    // decoration: BoxDecoration(
+                                    //   color: Colors.red,
+                                    //   borderRadius: BorderRadius.all(Radius.circular(15))
+                                    // ),
+                                    color: Colors.blue,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    padding: EdgeInsets.only(top: 15, bottom: 15),
+                                    child: Text('Voeg product toe'.toUpperCase(), style:
+                                      TextStyle(
+                                        color: Colors.white
+                                      ) 
+                                    ),
+                                    onPressed: () {
+                                      Navigator.pop(context, products[index]);
+                                    },
+                                  ),
+                                ),
+                              )  
                             ],
                           ) 
                         )
@@ -187,12 +221,26 @@ class _AllProductsViewState extends State<AllProductsView> {
               },
             ),
           ),
+
         ],
       ),
     );
   }
-
   void _productsOverlay(context, products) {
+    // var product = products;
+    
+    
+    // final data = Product(
+    //   id: product['id'],
+    //   name: product['name'],
+    //   price: product['price'],
+    //   unit: product['unit'],
+    //   weight: product['weight'],
+    //   unitprice: product['unitprice'],
+    //   description: product['description'],
+    //   amount: product['amount'],
+    // );
+    //print(products);
     showModalBottomSheet(
       context: context, 
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(25), topRight: Radius.circular(25)),),
@@ -320,42 +368,7 @@ class _AllProductsViewState extends State<AllProductsView> {
   }
 }
 
-// class Search extends SearchDelegate {
-//   @override
-//   List<Widget> buildActions(BuildContext context) {
-//       return <Widget>[
-//         IconButton(
-//           icon: Icon(Icons.close), 
-//           onPressed: () {
-//             query = "";
-//           }
-//         )
-//       ];
-//     }
-  
-//     @override
-//     Widget buildLeading(BuildContext context) {
-//       return IconButton(
-//         icon: Icon(Icons.arrow_back), 
-//         onPressed: () {
-//           Navigator.pop(context);
-//         }
-//       );
-//     }
-  
-//     @override
-//     Widget buildResults(BuildContext context) {
-//       return Container(
-//         child: Center(
-//           child: Text(selectedResult)
-//         ),
-//       );
-//     }
-  
-//     @override
-//     Widget buildSuggestions(BuildContext context) {
-//     // TODO: implement buildSuggestions
-//     throw UnimplementedError();
-//   }
-  
-// }
+
+//PRODUCT DETAIL VIEW
+
+
