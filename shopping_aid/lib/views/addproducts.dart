@@ -229,18 +229,6 @@ class _AddProductsViewState extends State<AddProductsView> {
   void _productsOverlay(context, products) {
     // var product = products;
     
-    
-    // final data = Product(
-    //   id: product['id'],
-    //   name: product['name'],
-    //   price: product['price'],
-    //   unit: product['unit'],
-    //   weight: product['weight'],
-    //   unitprice: product['unitprice'],
-    //   description: product['description'],
-    //   amount: product['amount'],
-    // );
-    //print(products);
     showModalBottomSheet(
       context: context, 
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(25), topRight: Radius.circular(25)),),

@@ -19,8 +19,7 @@ class _ShoppingListViewState extends State<ShoppingListView> {
   var products = [];
   var prices = [];
   var totalPrice = 0.0;
-  var totalPriceString;
-  
+  var totalPriceString = '0,0';
 
   _removePrice(index, price) {
     setState(() {
@@ -99,7 +98,8 @@ class _ShoppingListViewState extends State<ShoppingListView> {
           child: Padding(
             padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
             child: Container(
-              child: ListView.builder(
+              child: 
+              ListView.builder(
                 itemBuilder: (BuildContext context, int index){
                   return(
                     Column(

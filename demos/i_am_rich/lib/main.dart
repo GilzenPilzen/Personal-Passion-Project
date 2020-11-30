@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
             children: [
               Image(
                   image: AssetImage("assets/images/Homer_Simpson.jpg"),
+                  width: 250,
                 ),
               Column(
                 children: <Widget>[
