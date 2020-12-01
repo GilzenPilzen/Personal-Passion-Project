@@ -3,7 +3,6 @@ import 'addproducts.dart';
 import 'allproducts.dart';
 
 
-// ignore: must_be_immutable
 class ShoppingListView extends StatefulWidget{
   
 
