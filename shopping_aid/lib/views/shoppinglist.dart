@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'addproducts.dart';
 import 'navigator_android.dart';
+import 'navigator_ios.dart';
+
 
 import 'dart:io' show Platform;
 
@@ -201,6 +203,12 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                         Navigator.push(context, 
                           MaterialPageRoute(
                             builder: (context) => ArCoreNavigator() 
+                          )
+                        );
+                      }else if (Platform.isIOS) {
+                        Navigator.push(context, 
+                          MaterialPageRoute(
+                            builder: (context) => ArKitNavigator() 
                           )
                         );
                       }
