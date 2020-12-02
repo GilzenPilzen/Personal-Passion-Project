@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'addproducts.dart';
-import 'allproducts.dart';
+import 'navigator_android.dart';
+
+import 'dart:io' show Platform;
 
 
 class ShoppingListView extends StatefulWidget{
@@ -195,13 +197,15 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     onPressed: () {
-                      Navigator.push(context, 
-                        MaterialPageRoute(
-                          builder: (context) => AllProductsView() 
-                        )
-                      );
+                      if(Platform.isAndroid) {
+                        Navigator.push(context, 
+                          MaterialPageRoute(
+                            builder: (context) => ArCoreNavigator() 
+                          )
+                        );
+                      }
                     },
-                    child: Text('Bekijk alle producten'.toUpperCase(), style: 
+                    child: Text('Start met winkelen'.toUpperCase(), style: 
                       TextStyle(
                         color: Colors.white
                       ),
