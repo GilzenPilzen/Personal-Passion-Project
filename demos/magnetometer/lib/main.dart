@@ -1,6 +1,10 @@
+
+
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:compasstools/compasstools.dart';
-import 'package:flutter/services.dart';
+//import 'package:flutter/services.dart';
 
 void main() => runApp(MyApp());
 
@@ -11,12 +15,27 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
 
 int _haveSensor;
- String sensorType;
+  String sensorType;
+  var data;
+
+  void checkAziumthStream(){
+    setState(() {
+      print(Compasstools.azimuthStream);
+      print(data);
+    });
+  }
+
+  // ignore: cancel_subscriptions
+  StreamSubscription<int> gryscope = Compasstools.azimuthStream.listen((event) {
+    print(event);
+  });
+ 
 
  @override
  void initState() {
- super.initState();
- checkDeviceSensors();
+  super.initState();
+  checkDeviceSensors();
+  checkAziumthStream();
  }
  
   Future<void> checkDeviceSensors() async {
@@ -66,6 +85,7 @@ int _haveSensor;
     });
   }
 
+  
 
 @override
  Widget build(BuildContext context) {
@@ -80,6 +100,7 @@ int _haveSensor;
               stream: Compasstools.azimuthStream,
               builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
                 if (snapshot.hasData) {
+                  data = snapshot.data;
                   return Padding(
                     padding: EdgeInsets.all(20),
                     child: Center(
@@ -95,7 +116,13 @@ int _haveSensor;
                   return Text("Error in stream!");
               },
             ),
-              Text("SensorType " + sensorType),
+            Text("SensorType " + sensorType),
+            RaisedButton(
+              onPressed: () {
+                checkAziumthStream();
+              },
+              child: Text('Druk op de knop'),
+            )  
             ],
           ),
         ),
