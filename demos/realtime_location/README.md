@@ -1,4 +1,4 @@
-# i_am_rich
+# get_location
 
 A new Flutter project.
 

@@ -1,4 +1,4 @@
-package com.example.i_am_rich
+package com.example.get_location
 
 import io.flutter.embedding.android.FlutterActivity
 
