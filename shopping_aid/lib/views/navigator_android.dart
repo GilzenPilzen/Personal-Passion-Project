@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:arcore_flutter_plugin/arcore_flutter_plugin.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
 import 'package:flutter_3d_obj/flutter_3d_obj.dart';
+import 'package:compasstools/compasstools.dart';
+import 'package:flutter/services.dart';
 
 
 class ArCoreNavigator extends StatefulWidget {
@@ -28,7 +30,7 @@ class _ArCoreNavigatorState extends State<ArCoreNavigator> {
         shape: sphere, 
         position: vector.Vector3(
           0, 0, -1
-        )
+        ),
       );
 
       _arcoreController.addArCoreNode(node);
@@ -56,7 +58,7 @@ class _ArCoreNavigatorState extends State<ArCoreNavigator> {
     arCoreController.dispose();
     super.dispose();
   }
-  
+
   Future<void> checkDeviceSensors() async {
     int haveSensor;
 
@@ -106,7 +108,9 @@ class _ArCoreNavigatorState extends State<ArCoreNavigator> {
 
   @override
   Widget build(BuildContext context) { 
-
+    SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+    ]);
     return Scaffold(
       backgroundColor: Colors.transparent,
       // appBar: AppBar(
@@ -137,11 +141,31 @@ class _ArCoreNavigatorState extends State<ArCoreNavigator> {
           Align(
             alignment: Alignment.center,
             child: Container(
-              child: Object3D(
-                size: Size(100, 100),
-                path: "assets/file.obj",
-                asset: true,
-              ),
+              child: StreamBuilder(
+                stream: Compasstools.azimuthStream,
+                builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+                  if (snapshot.hasData) {
+                  return Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Center(
+                        child: new RotationTransition(
+
+                          turns: new AlwaysStoppedAnimation(
+                              -snapshot.data / 360),
+                          child: Object3D(
+                            size: Size(10, 10),
+                            path: "assets/file.obj",
+                            asset: true,
+                            angleZ: 500,
+                          ),
+                        )
+                    ),
+                  );
+                }
+                else
+                  return Text("Error in stream!");
+                },
+              )
             ),
           ),
           Align(
