@@ -15,8 +15,8 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   var position;
-  var longitude;
-  var latitude; 
+  var longitude = 0.0000; 
+  var latitude = 0.0000; 
   var positionString;
   var bearing;
 
@@ -68,6 +68,7 @@ class _MyAppState extends State<MyApp> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              
               Text(position.toString()),
               Text("Bearing "+ bearing.toString()),
               RaisedButton(

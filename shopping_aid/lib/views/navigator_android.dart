@@ -4,6 +4,7 @@ import 'package:vector_math/vector_math_64.dart' as vector;
 import 'package:flutter_3d_obj/flutter_3d_obj.dart';
 import 'package:compasstools/compasstools.dart';
 import 'package:flutter/services.dart';
+import 'package:geolocator/geolocator.dart';
 
 
 class ArCoreNavigator extends StatefulWidget {
@@ -14,6 +15,11 @@ _ArCoreNavigatorState createState() => _ArCoreNavigatorState();
 
 class _ArCoreNavigatorState extends State<ArCoreNavigator> {
   ArCoreController arCoreController;
+  var position;
+  var longitude = 0.0000; 
+  var latitude = 0.0000; 
+  var positionString;
+  var bearing;
   int _haveSensor;
   String sensorType;
 
@@ -35,18 +41,16 @@ class _ArCoreNavigatorState extends State<ArCoreNavigator> {
 
       _arcoreController.addArCoreNode(node);
   }
-  // _addCylinder(ArCoreController _arcoreController){
-  //     final material = ArCoreMaterial(color: Colors.blue);
-  //     final cylinder = ArCoreCylinder(height: 0.1, materials: [material], radius: 0.2);
-  //     final node = ArCoreNode(
-  //       shape: cylinder, 
-  //       position: vector.Vector3(
-  //         0, 0, -1
-  //       )
-  //     );
 
-  //     _arcoreController.addArCoreNode(node);
-  // }
+  void _getCurrentLocation() async {
+    position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+    // print(position);
+
+    setState(() {
+      bearing = Geolocator.bearingBetween(position.latitude, position.longitude, 52.3546274, 4.8285838);
+      print(bearing);  
+    });
+  }
 
   @override
   void initState() {
@@ -145,6 +149,7 @@ class _ArCoreNavigatorState extends State<ArCoreNavigator> {
                 stream: Compasstools.azimuthStream,
                 builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
                   if (snapshot.hasData) {
+                    print(snapshot.data);
                   return Padding(
                     padding: EdgeInsets.all(20),
                     child: Center(
@@ -183,7 +188,17 @@ class _ArCoreNavigatorState extends State<ArCoreNavigator> {
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       color: Colors.blue,
                     ),
-                    child: Text('Dit is een tekst'),
+                    child:Row(
+                      children: [
+                        Text('Ververs de hoek'),
+                        RaisedButton(
+                          child: Text('Klik om te verversen'),
+                          onPressed: () {
+                            _getCurrentLocation();
+                          }
+                        )
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -191,9 +206,6 @@ class _ArCoreNavigatorState extends State<ArCoreNavigator> {
           )
         ],
       )
-        
-      
-
     );
   }
 }
