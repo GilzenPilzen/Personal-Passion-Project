@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:arcore_flutter_plugin/arcore_flutter_plugin.dart';
-import 'package:vector_math/vector_math_64.dart' as vector;
+// import 'package:vector_math/vector_math_64.dart' as vector;
 import 'package:flutter_3d_obj/flutter_3d_obj.dart';
 import 'package:compasstools/compasstools.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:geomag/geomag.dart';
 
+Future<double> _getDeclination() async {
+  final pos = await Geolocator.getLastKnownPosition() ??
+      await Geolocator.getCurrentPosition();
+  if (pos == null) return null;
+  // ignore: await_only_futures
+  final result = await GeoMag().calculate(
+      pos.latitude, pos.longitude, pos.altitude * 3.28084); // m -> ft
+  return result.dec;
+}
 
 class ArCoreNavigator extends StatefulWidget {
 
@@ -14,41 +24,32 @@ _ArCoreNavigatorState createState() => _ArCoreNavigatorState();
 }
 
 class _ArCoreNavigatorState extends State<ArCoreNavigator> {
+  var cords;
   ArCoreController arCoreController;
-  var position;
-  var longitude = 0.0000; 
-  var latitude = 0.0000; 
   var positionString;
   var bearing;
   int _haveSensor;
   String sensorType;
+  var direction;
+  double _declination;
+  var azimuth;
 
   _onArCoreViewCreated(ArCoreController _arcoreController) {
     arCoreController = _arcoreController;
-    _addSphere(arCoreController);
+    // _addSphere(arCoreController);
     // _addCylinder(arCoreController);
   }
 
-  _addSphere(ArCoreController _arcoreController){
-      final material = ArCoreMaterial(color: Colors.blue);
-      final sphere = ArCoreSphere(materials:  [material], radius: 0.2);
-      final node = ArCoreNode(
-        shape: sphere, 
-        position: vector.Vector3(
-          0, 0, -1
-        ),
-      );
-
-      _arcoreController.addArCoreNode(node);
-  }
-
   void _getCurrentLocation() async {
-    position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+    var position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
     // print(position);
 
     setState(() {
       bearing = Geolocator.bearingBetween(position.latitude, position.longitude, 52.3546274, 4.8285838);
       print(bearing);  
+      cords= position;
+      print(cords);
+      print('azimuth: $azimuth');
     });
   }
 
@@ -56,6 +57,12 @@ class _ArCoreNavigatorState extends State<ArCoreNavigator> {
   void initState() {
     super.initState();
     checkDeviceSensors();
+
+    _getDeclination().then((dec) {
+      setState(() {
+        _declination = dec;
+      });
+    });
   }
 
   void dispose() {
@@ -65,44 +72,28 @@ class _ArCoreNavigatorState extends State<ArCoreNavigator> {
 
   Future<void> checkDeviceSensors() async {
     int haveSensor;
-
-
     try {
       haveSensor = await Compasstools.checkSensors;
-
-
       switch (haveSensor) {
-        case 0:
-          {
-            sensorType = "No sensors for compass!";
-          }
-          break;
-
-
-        case 1:
-          {
-            sensorType = "Accelerometer + Magnetometer!";
-          }
-          break;
-
-
-        case 2:
-          {
-            sensorType = "Gyroscope!";
-          }
-          break;
-
-
-        default:
-          {
-            sensorType = "Error!";
-          }
-          break;
+        case 0:{
+          sensorType = "No sensors for compass!";
+        }
+        break;
+        case 1:{
+          sensorType = "Accelerometer + Magnetometer!";
+        }
+        break;
+        case 2:{
+          sensorType = "Gyroscope!";
+        }
+        break;
+        default:{
+          sensorType = "Error!";
+        }
+        break;
       }
-    } on Exception {
+    } on Exception {}
 
-
-    }
     if (!mounted) return;
 
     setState(() {
@@ -149,14 +140,15 @@ class _ArCoreNavigatorState extends State<ArCoreNavigator> {
                 stream: Compasstools.azimuthStream,
                 builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
                   if (snapshot.hasData) {
-                    print(snapshot.data);
+                    // print(snapshot.data);
+                azimuth = _declination + snapshot.data;
+                direction = azimuth - bearing;
+
                   return Padding(
                     padding: EdgeInsets.all(20),
                     child: Center(
                         child: new RotationTransition(
-
-                          turns: new AlwaysStoppedAnimation(
-                              -snapshot.data / 360),
+                          turns: new AlwaysStoppedAnimation(-direction/360),
                           child: Object3D(
                             size: Size(10, 10),
                             path: "assets/file.obj",

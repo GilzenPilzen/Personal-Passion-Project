@@ -33,6 +33,7 @@ dependencies:
   arkit_plugin: ^0.6.0
   compasstools: ^0.1.0
   geolocator: ^6.1.10
+  geomag: ^0.1.1
   
 
 dev_dependencies:
