@@ -8,7 +8,7 @@ class AllProductsView extends StatefulWidget {
 }
 
 class _AllProductsViewState extends State<AllProductsView> {
-  var dataJson = 'assets/data/products.json';
+  final dataJson = 'assets/data/products.json';
 
   final _searchKey = GlobalKey<FormState>();
 
@@ -85,10 +85,11 @@ class _AllProductsViewState extends State<AllProductsView> {
           
           Expanded(
             child: FutureBuilder(
-              future: DefaultAssetBundle.of(context).loadString(dataJson),
+              future: DefaultAssetBundle.of(context).loadString('assets/data/products.json'),
               builder: (context,snapshot) {
                 var products = json.decode(snapshot.data.toString());
                 // var price = double.parse(products[index][price"]);
+                print(products);
                 return (
                   ListView.builder(
                     itemBuilder: (BuildContext context, int index) {
@@ -118,7 +119,7 @@ class _AllProductsViewState extends State<AllProductsView> {
                                       builder: (context) => FlatButton(
                                         child: Image(
                                           width: 125,
-                                          image: AssetImage("assets/images/cola.jpg"),
+                                          image: AssetImage("assets/images/producten/cola.jpg"),
                                         ),
                                         onPressed: (){
                                           _productsOverlay(context, products[index]);
@@ -239,7 +240,7 @@ class _AllProductsViewState extends State<AllProductsView> {
                                 margin: EdgeInsets.only(bottom: 35),
                                 child: Image(
                                   width: 150,
-                                  image: AssetImage("assets/images/cola.jpg"),
+                                  image: AssetImage("assets/images/producten/cola.jpg"),
                                 )
                               ),
                               Row(
