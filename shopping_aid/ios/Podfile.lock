@@ -1,0 +1,34 @@
+PODS:
+  - arkit_plugin (0.0.1):
+    - Flutter
+  - compasstools (0.0.1):
+    - Flutter
+  - Flutter (1.0.0)
+  - geolocator (6.1.9):
+    - Flutter
+
+DEPENDENCIES:
+  - arkit_plugin (from `.symlinks/plugins/arkit_plugin/ios`)
+  - compasstools (from `.symlinks/plugins/compasstools/ios`)
+  - Flutter (from `Flutter`)
+  - geolocator (from `.symlinks/plugins/geolocator/ios`)
+
+EXTERNAL SOURCES:
+  arkit_plugin:
+    :path: ".symlinks/plugins/arkit_plugin/ios"
+  compasstools:
+    :path: ".symlinks/plugins/compasstools/ios"
+  Flutter:
+    :path: Flutter
+  geolocator:
+    :path: ".symlinks/plugins/geolocator/ios"
+
+SPEC CHECKSUMS:
+  arkit_plugin: 3e42571e8be84adabb8a178bd51c22fa981e16bd
+  compasstools: 044f9d2a93cf19256a991c1d0a97b58326c82e98
+  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  geolocator: 057a0c63a43e9c5296d8ad845a3ac8e6df23d899
+
+PODFILE CHECKSUM: 50d19b026cdc0c20c9be0199a2f32976b3864075
+
+COCOAPODS: 1.10.0
