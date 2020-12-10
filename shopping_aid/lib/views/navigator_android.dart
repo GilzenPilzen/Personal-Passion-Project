@@ -7,16 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geomag/geomag.dart';
 
-Future<double> _getDeclination() async {
-  final pos = await Geolocator.getLastKnownPosition() ??
-      await Geolocator.getCurrentPosition();
-  if (pos == null) return null;
-  // ignore: await_only_futures
-  final result = await GeoMag().calculate(
-      pos.latitude, pos.longitude, pos.altitude * 3.28084); // m -> ft
-  return result.dec;
-}
-
 class ArCoreNavigator extends StatefulWidget {
 
   @override
@@ -26,7 +16,6 @@ _ArCoreNavigatorState createState() => _ArCoreNavigatorState();
 class _ArCoreNavigatorState extends State<ArCoreNavigator> {
   var cords;
   ArCoreController arCoreController;
-  var positionString;
   var bearing;
   int _haveSensor;
   String sensorType;
@@ -34,12 +23,27 @@ class _ArCoreNavigatorState extends State<ArCoreNavigator> {
   double _declination;
   var azimuth;
 
-  _onArCoreViewCreated(ArCoreController _arcoreController) {
-    arCoreController = _arcoreController;
-    // _addSphere(arCoreController);
-    // _addCylinder(arCoreController);
+  
+
+  Future<double> _getDeclination(latitude, longitude, altitude) async {
+    // ignore: await_only_futures
+    final result = await GeoMag().calculate(
+      latitude, longitude, altitude * 3.28084
+    ); // m -> ft
+    return result.dec;
   }
 
+  void _getInitialPositionWithDeclination() async {
+    final pos = await Geolocator.getLastKnownPosition() ?? await Geolocator.getCurrentPosition();
+
+    if (pos == null) return null;
+
+    _getDeclination(pos.latitude, pos.longitude, pos.latitude).then((dec) {
+      setState(() {
+        _declination = dec;
+      });
+    });
+  }
   void _getCurrentLocation() async {
     var position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
     // print(position);
@@ -50,6 +54,11 @@ class _ArCoreNavigatorState extends State<ArCoreNavigator> {
       cords= position;
       print(cords);
       print('azimuth: $azimuth');
+      _getDeclination(position.latitude, position.longitude, position.latitude).then((dec) {
+        setState(() {
+          _declination = dec;
+        });
+      });
     });
   }
 
@@ -57,18 +66,10 @@ class _ArCoreNavigatorState extends State<ArCoreNavigator> {
   void initState() {
     super.initState();
     checkDeviceSensors();
-
-    _getDeclination().then((dec) {
-      setState(() {
-        _declination = dec;
-      });
-    });
+    _getCurrentLocation();
+    _getInitialPositionWithDeclination();
   }
 
-  void dispose() {
-    arCoreController.dispose();
-    super.dispose();
-  }
 
   Future<void> checkDeviceSensors() async {
     int haveSensor;
@@ -99,6 +100,17 @@ class _ArCoreNavigatorState extends State<ArCoreNavigator> {
     setState(() {
       _haveSensor = haveSensor;
     });
+  }
+
+  _onArCoreViewCreated(ArCoreController _arcoreController) {
+    arCoreController = _arcoreController;
+    // _addSphere(arCoreController);
+    // _addCylinder(arCoreController);
+  } 
+  
+  void dispose() {
+    arCoreController.dispose();
+    super.dispose();
   }
 
   @override
