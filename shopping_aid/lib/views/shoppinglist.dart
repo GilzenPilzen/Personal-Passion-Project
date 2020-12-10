@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'addproducts.dart';
 import 'navigator_android.dart';
 import 'navigator_ios.dart';
-
-
 import 'dart:io' show Platform;
 
 
@@ -23,6 +21,7 @@ class _ShoppingListViewState extends State<ShoppingListView> {
   var prices = [];
   var totalPrice = 0.0;
   var totalPriceString = '0,0';
+  var color;
 
   _removePrice(index, price) {
     setState(() {
@@ -52,7 +51,22 @@ class _ShoppingListViewState extends State<ShoppingListView> {
       print(totalPriceString);
     });
   }
-  
+  void _checkColor() {
+    setState(() {
+      if(products.length == 0) {
+        color = Colors.transparent;
+      }else if(products.length != 0){
+        color = Colors.blue;
+      }  
+    });
+    
+  }
+
+  void initState() {
+    super.initState();
+    _checkColor();
+  }
+   
   // _printPrices() {
   //     for(int i = 0; i < products.length; i++){
   //       String price = products[i]["price"];
@@ -193,24 +207,28 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: RaisedButton(
-                    color: Colors.blue,
+                    color: color,
                     padding: EdgeInsets.all(20),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
                     onPressed: () {
-                      if(Platform.isAndroid) {
-                        Navigator.push(context, 
-                          MaterialPageRoute(
-                            builder: (context) => ArCoreNavigator() 
-                          )
-                        );
-                      }else if (Platform.isIOS) {
-                        Navigator.push(context, 
-                          MaterialPageRoute(
-                            builder: (context) => ArKitNavigator() 
-                          )
-                        );
+                      if(products.length == 0){
+                        return null;
+                      } else {
+                        if(Platform.isAndroid) {
+                          Navigator.push(context, 
+                            MaterialPageRoute(
+                              builder: (context) => ArCoreNavigator() 
+                            )
+                          );
+                        }else if (Platform.isIOS) {
+                          Navigator.push(context, 
+                            MaterialPageRoute(
+                              builder: (context) => ArKitNavigator() 
+                            )
+                          );
+                        }
                       }
                     },
                     child: Text('Start met winkelen'.toUpperCase(), style: 
@@ -235,14 +253,20 @@ class _ShoppingListViewState extends State<ShoppingListView> {
     );
     
     setState(() {
-      products.add(data);
+      if(data != null) {
 
-      String price = data["price"];
-      var changeKomma = price.replaceFirst(",", ".");
-      print(changeKomma);
-      
-      var doublePrice = double.parse(changeKomma);
-      prices.add(doublePrice);
+        products.add(data);
+
+        String price = data["price"];
+        var changeKomma = price.replaceFirst(",", ".");
+        print(changeKomma);
+        
+        var doublePrice = double.parse(changeKomma);
+        prices.add(doublePrice);
+        color = Colors.blue;
+      } else {
+        print("er zijn geen producten toegevoegd");
+      }
     });
   }
 
