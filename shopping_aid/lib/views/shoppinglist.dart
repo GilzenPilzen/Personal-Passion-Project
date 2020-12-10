@@ -22,6 +22,7 @@ class _ShoppingListViewState extends State<ShoppingListView> {
   var totalPrice = 0.0;
   var totalPriceString = '0,0';
   var color;
+  var textColor;
 
   _removePrice(index, price) {
     setState(() {
@@ -214,8 +215,12 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                     ),
                     onPressed: () {
                       if(products.length == 0){
+                        color = Colors.transparent;
+                        textColor = Colors.transparent;
                         return null;
                       } else {
+                        color = Colors.blue;
+                        textColor = Colors.white;
                         if(Platform.isAndroid) {
                           Navigator.push(context, 
                             MaterialPageRoute(
@@ -263,7 +268,6 @@ class _ShoppingListViewState extends State<ShoppingListView> {
         
         var doublePrice = double.parse(changeKomma);
         prices.add(doublePrice);
-        color = Colors.blue;
       } else {
         print("er zijn geen producten toegevoegd");
       }
