@@ -125,7 +125,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                                       builder: (context) => FlatButton(
                                         child: Image(
                                           width: 125,
-                                          image: AssetImage("assets/images/producten/cola.jpg"),
+                                          image: AssetImage("assets/images/producten/cola.jpeg"),
                                         ),
                                         onPressed: (){
                                           _productsOverlay(context, products[index]);
@@ -275,7 +275,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                                 margin: EdgeInsets.only(bottom: 35),
                                 child: Image(
                                   width: 150,
-                                  image: AssetImage("assets/images/producten/cola.jpg"),
+                                  image: AssetImage("assets/images/producten/cola.jpeg"),
                                 )
                               ),
                               Row(
