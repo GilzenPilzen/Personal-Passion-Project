@@ -45,7 +45,8 @@ class _ShoppingListViewState extends State<ShoppingListView> {
         }else {
         }
       }
-      var parsetoString = totalPrice.toString(); 
+      var totalPriceRounded = double.parse((totalPrice).toStringAsFixed(2));
+      var parsetoString = totalPriceRounded.toString(); 
       var changePoint = parsetoString.replaceFirst(".", ",");
       totalPriceString = changePoint;
 
