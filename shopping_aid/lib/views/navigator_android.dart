@@ -6,11 +6,11 @@ import 'package:compasstools/compasstools.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geomag/geomag.dart';
+//import 'package:splashscreen/splashscreen.dart';
 
 class ArCoreNavigator extends StatefulWidget {
-
   @override
-_ArCoreNavigatorState createState() => _ArCoreNavigatorState();
+  _ArCoreNavigatorState createState() => _ArCoreNavigatorState();
 }
 
 class _ArCoreNavigatorState extends State<ArCoreNavigator> {
@@ -20,10 +20,8 @@ class _ArCoreNavigatorState extends State<ArCoreNavigator> {
   int _haveSensor;
   String sensorType;
   var direction;
-  double _declination;
+  var _declination;
   var azimuth;
-
-  
 
   Future<double> _getDeclination(latitude, longitude, altitude) async {
     // ignore: await_only_futures
@@ -31,29 +29,33 @@ class _ArCoreNavigatorState extends State<ArCoreNavigator> {
       latitude, longitude, altitude * 3.28084
     ); // m -> ft
     return result.dec;
+    // ignore: dead_code
   }
 
   void _getInitialPositionWithDeclination() async {
-    final pos = await Geolocator.getLastKnownPosition() ?? await Geolocator.getCurrentPosition();
+    final pos = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
 
-    if (pos == null) return null;
-
-    _getDeclination(pos.latitude, pos.longitude, pos.latitude).then((dec) {
-      setState(() {
-        _declination = dec;
+    if (pos != null){
+      _getDeclination(pos.latitude, pos.longitude, pos.latitude).then((dec) {
+        setState(() {
+          _declination = dec;
+        });
       });
-    });
+    } else {
+      print("oesje, locatie is nog niet bepaald");
+    }  
   }
+
+
   void _getCurrentLocation() async {
     var position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
     // print(position);
 
     setState(() {
-      bearing = Geolocator.bearingBetween(position.latitude, position.longitude, 52.3546274, 4.8285838);
+      bearing = Geolocator.bearingBetween(position.latitude, position.longitude, 50.8124388, 3.414989);
       print(bearing);  
       cords= position;
       print(cords);
-      print('azimuth: $azimuth');
       _getDeclination(position.latitude, position.longitude, position.latitude).then((dec) {
         setState(() {
           _declination = dec;
@@ -62,10 +64,17 @@ class _ArCoreNavigatorState extends State<ArCoreNavigator> {
     });
   }
 
+  void _checkIfNull() {
+    if(azimuth == null || direction == null || _declination == null) {
+      print("berekening is nog bezig");
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     checkDeviceSensors();
+    _checkIfNull();
     _getCurrentLocation();
     _getInitialPositionWithDeclination();
   }
@@ -112,23 +121,19 @@ class _ArCoreNavigatorState extends State<ArCoreNavigator> {
     arCoreController.dispose();
     super.dispose();
   }
-
+  
   @override
-  Widget build(BuildContext context) { 
+  Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
         DeviceOrientation.portraitUp,
     ]);
-    return Scaffold(
+    return 
+    Scaffold(
       backgroundColor: Colors.transparent,
-      // appBar: AppBar(
-      //   title: Text('Winkel navigator'),
-      //   backgroundColor: Colors.transparent,
-      // ),
       body: Stack(
         children: [
           ArCoreView(
             onArCoreViewCreated: _onArCoreViewCreated,
-            enableTapRecognizer: true,  
           ),
           Align(
             alignment: Alignment.topLeft,
@@ -153,26 +158,28 @@ class _ArCoreNavigatorState extends State<ArCoreNavigator> {
                 builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
                   if (snapshot.hasData) {
                     // print(snapshot.data);
-                azimuth = _declination + snapshot.data;
-                direction = azimuth - bearing;
-
-                  return Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Center(
-                        child: new RotationTransition(
-                          turns: new AlwaysStoppedAnimation(-direction/360),
-                          child: Object3D(
-                            size: Size(10, 10),
-                            path: "assets/file.obj",
-                            asset: true,
-                            angleZ: 500,
-                          ),
-                        )
-                    ),
-                  );
-                }
-                else
-                  return Text("Error in stream!");
+                  azimuth = _declination + snapshot.data;
+                  direction = azimuth - bearing;
+                  var directHeading = double.parse((direction).toStringAsFixed(12));
+                  print(directHeading);
+                  
+                  print(azimuth);
+                  print(direction);
+                    return Padding(
+                      padding: EdgeInsets.all(20),
+                      child: Center(
+                          child: new RotationTransition(
+                            turns: new AlwaysStoppedAnimation(-directHeading/360),
+                            child: Object3D(
+                              size: Size(10, 10),
+                              path: "assets/file.obj",
+                              asset: true,
+                            ),
+                          )
+                      ),
+                    );
+                } 
+                  return Text("Error in stream");
                 },
               )
             ),
@@ -214,3 +221,29 @@ class _ArCoreNavigatorState extends State<ArCoreNavigator> {
   }
 }
 
+// class  extends StatefulWidget {
+//   @override
+//   _State createState() => _State();
+// }
+
+// class _State extends State<> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return
+//       SplashScreen(
+//       seconds: 8,
+//       navigateAfterSeconds:
+      
+//       title: Text('Getting your location',
+//         style: TextStyle(
+//           fontWeight: FontWeight.bold,
+//           fontSize: 20.0
+//         ),
+//       ),
+//       backgroundColor: Colors.transparent,
+//       styleTextUnderTheLoader: new TextStyle(),
+//       onClick: ()=>print("Flutter Egypt"),
+//       loaderColor: Colors.red
+//     );
+//   }
+// }

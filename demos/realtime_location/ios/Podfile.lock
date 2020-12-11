@@ -1,0 +1,28 @@
+PODS:
+  - compasstools (0.0.1):
+    - Flutter
+  - Flutter (1.0.0)
+  - geolocator (6.1.9):
+    - Flutter
+
+DEPENDENCIES:
+  - compasstools (from `.symlinks/plugins/compasstools/ios`)
+  - Flutter (from `Flutter`)
+  - geolocator (from `.symlinks/plugins/geolocator/ios`)
+
+EXTERNAL SOURCES:
+  compasstools:
+    :path: ".symlinks/plugins/compasstools/ios"
+  Flutter:
+    :path: Flutter
+  geolocator:
+    :path: ".symlinks/plugins/geolocator/ios"
+
+SPEC CHECKSUMS:
+  compasstools: 044f9d2a93cf19256a991c1d0a97b58326c82e98
+  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  geolocator: 057a0c63a43e9c5296d8ad845a3ac8e6df23d899
+
+PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
+
+COCOAPODS: 1.10.0
