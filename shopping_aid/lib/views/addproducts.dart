@@ -23,7 +23,7 @@ class _AddProductsViewState extends State<AddProductsView> {
     return Scaffold(
       backgroundColor: Colors.blueGrey[800],
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        // automaticallyImplyLeading: false,
         backgroundColor: Colors.blueGrey[800],
         title: Padding(
           padding: EdgeInsets.fromLTRB(5, 15, 5, 15),
