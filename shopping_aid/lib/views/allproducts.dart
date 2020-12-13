@@ -8,7 +8,16 @@ class AllProductsView extends StatefulWidget {
 }
 
 class _AllProductsViewState extends State<AllProductsView> {
-  final dataJson = 'assets/data/products.json';
+  var dataJson = 'assets/data/products.json';
+
+  var products;
+
+  void _sortProducts() {
+    var sortedProducts = products.sort((a,b) {
+      return a.product['name'].toString().compareTo(b.product['name'].toString());
+    });
+    print(sortedProducts);
+  }
 
   final _searchKey = GlobalKey<FormState>();
 
@@ -30,6 +39,7 @@ class _AllProductsViewState extends State<AllProductsView> {
                   color: Colors.white,
                   iconSize: 30,
                   onPressed: () {
+                    _sortProducts();
                     // showSearch(context: context, delegate: Search());
                   },
                 )
@@ -87,7 +97,9 @@ class _AllProductsViewState extends State<AllProductsView> {
             child: FutureBuilder(
               future: DefaultAssetBundle.of(context).loadString('assets/data/products.json'),
               builder: (context,snapshot) {
-                var products = json.decode(snapshot.data.toString());
+                products = json.decode(snapshot.data.toString());
+
+
                 // var price = double.parse(products[index][price"]);
                 print(products);
                 return (
