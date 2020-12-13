@@ -20,9 +20,9 @@ class _ArKitNavigatorState extends State<ArKitNavigator> {
   var bearing;
   int _haveSensor;
   String sensorType;
-  var direction;
+  var direction = 0;
   var _declination;
-  var azimuth;
+  var azimuth = 0;
 
   Future<double> _getDeclination(latitude, longitude, altitude) async {
     // ignore: await_only_futures
