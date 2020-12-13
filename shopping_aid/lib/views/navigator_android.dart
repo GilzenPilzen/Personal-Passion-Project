@@ -6,11 +6,16 @@ import 'package:compasstools/compasstools.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geomag/geomag.dart';
-//import 'package:splashscreen/splashscreen.dart';
+import 'package:splashscreen/splashscreen.dart';
 
+// ignore: must_be_immutable
 class ArCoreNavigator extends StatefulWidget {
+  List data = [];
+  ArCoreNavigator({Key key, @required this.data}) : super(key: key);
   @override
-  _ArCoreNavigatorState createState() => _ArCoreNavigatorState();
+  _ArCoreNavigatorState createState() => _ArCoreNavigatorState(data);
+  // ArCoreNavigator({List this.data});
+  
 }
 
 class _ArCoreNavigatorState extends State<ArCoreNavigator> {
@@ -20,8 +25,18 @@ class _ArCoreNavigatorState extends State<ArCoreNavigator> {
   int _haveSensor;
   String sensorType;
   var direction;
-  var _declination;
+  var _declination ;
   var azimuth;
+  List data = [];
+
+  _ArCoreNavigatorState(this.data);
+
+  void printData() {
+    print(data);
+  }
+
+  
+
 
   Future<double> _getDeclination(latitude, longitude, altitude) async {
     // ignore: await_only_futures
@@ -32,19 +47,19 @@ class _ArCoreNavigatorState extends State<ArCoreNavigator> {
     // ignore: dead_code
   }
 
-  void _getInitialPositionWithDeclination() async {
-    final pos = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+  // void _getInitialPositionWithDeclination() async {
+  //   final pos = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
 
-    if (pos != null){
-      _getDeclination(pos.latitude, pos.longitude, pos.latitude).then((dec) {
-        setState(() {
-          _declination = dec;
-        });
-      });
-    } else {
-      print("oesje, locatie is nog niet bepaald");
-    }  
-  }
+  //   if (pos != null){
+  //     _getDeclination(pos.latitude, pos.longitude, pos.latitude).then((dec) {
+  //       setState(() {
+  //         _declination = dec;
+  //       });
+  //     });
+  //   } else {
+  //     print("oesje, locatie is nog niet bepaald");
+  //   }  
+  // }
 
 
   void _getCurrentLocation() async {
@@ -76,7 +91,8 @@ class _ArCoreNavigatorState extends State<ArCoreNavigator> {
     checkDeviceSensors();
     _checkIfNull();
     _getCurrentLocation();
-    _getInitialPositionWithDeclination();
+    printData();
+    //_getInitialPositionWithDeclination();
   }
 
 
@@ -111,16 +127,16 @@ class _ArCoreNavigatorState extends State<ArCoreNavigator> {
     });
   }
 
-  _onArCoreViewCreated(ArCoreController _arcoreController) {
-    arCoreController = _arcoreController;
-    // _addSphere(arCoreController);
-    // _addCylinder(arCoreController);
-  } 
+  // _onArCoreViewCreated(ArCoreController _arcoreController) {
+  //   arCoreController = _arcoreController;
+  //   // _addSphere(arCoreController);
+  //   // _addCylinder(arCoreController);
+  // } 
   
-  void dispose() {
-    arCoreController.dispose();
-    super.dispose();
-  }
+  // void dispose() {
+  //   arCoreController.dispose();
+  //   super.dispose();
+  // }
   
   @override
   Widget build(BuildContext context) {
@@ -128,96 +144,121 @@ class _ArCoreNavigatorState extends State<ArCoreNavigator> {
         DeviceOrientation.portraitUp,
     ]);
     return 
-    Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Stack(
-        children: [
-          ArCoreView(
-            onArCoreViewCreated: _onArCoreViewCreated,
-          ),
-          Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 50, left: 10),
-              child: IconButton(
-                icon: Icon(Icons.arrow_back,
-                  size: 30,
-                  color: Colors.white,  
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ),
-          ),
-          Align(
-            alignment: Alignment.center,
-            child: Container(
-              child: StreamBuilder(
-                stream: Compasstools.azimuthStream,
-                builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
-                  if (snapshot.hasData) {
-                    // print(snapshot.data);
-                  azimuth = _declination + snapshot.data;
-                  direction = azimuth - bearing;
-                  var directHeading = double.parse((direction).toStringAsFixed(12));
-                  print(directHeading);
-                  
-                  print(azimuth);
-                  print(direction);
-                    return Padding(
-                      padding: EdgeInsets.all(20),
-                      child: Center(
-                          child: new RotationTransition(
-                            turns: new AlwaysStoppedAnimation(-directHeading/360),
-                            child: Object3D(
-                              size: Size(10, 10),
-                              path: "assets/file.obj",
-                              asset: true,
-                            ),
-                          )
-                      ),
-                    );
-                } 
-                  return Text("Error in stream");
-                },
-              )
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: EdgeInsets.only(left: 15, right: 15, bottom: 25),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      color: Colors.blue,
+    SplashScreen(
+      seconds: 5,
+        navigateAfterSeconds:
+        Scaffold(
+          backgroundColor: Colors.blueGrey[800],
+          body: Stack(
+            children: [
+              // ArCoreView(
+              //   onArCoreViewCreated: _onArCoreViewCreated,
+              // ),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 50, left: 10),
+                  child: IconButton(
+                    icon: Icon(Icons.arrow_back,
+                      size: 30,
+                      color: Colors.white,  
                     ),
-                    child:Row(
-                      children: [
-                        Text('Ververs de hoek'),
-                        RaisedButton(
-                          child: Text('Klik om te verversen'),
-                          onPressed: () {
-                            _getCurrentLocation();
-                          }
-                        )
-                      ],
-                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                   ),
-                ],
+                ),
               ),
-            ),
+              Align(
+                alignment: Alignment.center,
+                child: Container(
+                  child: StreamBuilder(
+                    stream: Compasstools.azimuthStream,
+                    builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+                      if (snapshot.hasData) {
+                        // print(snapshot.data);
+                      azimuth = _declination + snapshot.data;
+                      direction = azimuth - bearing;
+                      var directHeading = double.parse((direction).toStringAsFixed(12));
+                      print(directHeading);
+                      
+                      print(azimuth);
+                      print(direction);
+                        return Padding(
+                          padding: EdgeInsets.all(20),
+                          child: Center(
+                              child: new RotationTransition(
+                                turns: new AlwaysStoppedAnimation(-directHeading/360),
+                                child: Object3D(
+                                  size: Size(10, 10),
+                                  path: "assets/file.obj",
+                                  asset: true,
+                                ),
+                              )
+                          ),
+                        );
+                    } 
+                      return Text("Error in stream");
+                    },
+                  )
+                ),
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: EdgeInsets.only(left: 15, right: 15),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        alignment: Alignment.centerRight,
+                        child: FloatingActionButton(
+                            backgroundColor: Colors.blue,
+                            child: Icon(Icons.refresh, 
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              _getCurrentLocation();
+                            }
+                          ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 25),
+                        height: 150,
+                        width: MediaQuery.of(context).size.width,
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+                          color: Colors.blueGrey[900],
+                        ),
+                        child:Row(
+                          children: [
+                            Text('Ververs de hoek'),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            ],
           )
-        ],
-      )
+        ),
+        title: Text('Calculating direction',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 20.0,
+            color: Colors.white
+          ),
+        ),
+        backgroundColor: Colors.blueGrey[900],
+        styleTextUnderTheLoader: new TextStyle(),
+        onClick: ()=>print("Flutter Egypt"),
+        loaderColor: Colors.blueGrey[700]
     );
+    
   }
 }
 

@@ -225,7 +225,7 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                         if(Platform.isAndroid) {
                           Navigator.push(context, 
                             MaterialPageRoute(
-                              builder: (context) => ArCoreNavigator() 
+                              builder: (context) => ArCoreNavigator(data: products)
                             )
                           );
                         }else if (Platform.isIOS) {
