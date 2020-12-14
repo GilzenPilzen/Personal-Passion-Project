@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:arcore_flutter_plugin/arcore_flutter_plugin.dart';
 // import 'package:vector_math/vector_math_64.dart' as vector;
@@ -7,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geomag/geomag.dart';
 import 'package:splashscreen/splashscreen.dart';
+import 'package:location/location.dart' hide LocationAccuracy;
 
 // class ArCoreNavigator extends StatefulWidget {
 //   // List data = [];
@@ -39,11 +42,20 @@ class _ArCoreNavigatorState extends State<ArCoreNavigator> {
   var azimuth;
   var data;
   var index = 0;
-  var product;
   var latitude;
   var longitude;
+  var latitudeDouble;
+  var longitudeDouble;
+  double distanceToGoal;
+  StreamSubscription _locationSubscription;
+  Location _locationTracker = new Location();
+
 
   _ArCoreNavigatorState(this.data, this.latitude, this.longitude);
+
+  void printData() {
+    print(data);
+  }
 
   Future<double> _getDeclination(latitude, longitude, altitude) async {
     // ignore: await_only_futures
@@ -60,8 +72,8 @@ class _ArCoreNavigatorState extends State<ArCoreNavigator> {
 
     // print(position);
     setState(() {
-      var latitudeDouble = double.parse(data['latitude']);
-      var longitudeDouble = double.parse(data['longitude']);
+      latitudeDouble = double.parse(data['latitude']);
+      longitudeDouble = double.parse(data['longitude']);
       print(latitudeDouble);
       print(longitudeDouble);
       bearing = Geolocator.bearingBetween(position.latitude, position.longitude, latitudeDouble, longitudeDouble);
@@ -73,6 +85,18 @@ class _ArCoreNavigatorState extends State<ArCoreNavigator> {
           _declination = dec;
         });
       });
+    });
+  }
+
+  void getLiveLocation() {
+
+    if (_locationSubscription != null) {
+      _locationSubscription.cancel();
+    }
+    _locationSubscription = _locationTracker.onLocationChanged.listen((locationData) {
+      print(locationData);
+      distanceToGoal = Geolocator.distanceBetween(locationData.latitude, locationData.longitude, latitudeDouble, longitudeDouble);
+      print("Afstand tot doel: $distanceToGoal");
     });
   }
 
@@ -89,10 +113,8 @@ class _ArCoreNavigatorState extends State<ArCoreNavigator> {
       checkDeviceSensors();
       _checkIfNull();
       _getCurrentLocation();
-      // getProduct();
-      // _getInitialPositionWithDeclination();
+      getLiveLocation();
     });
-    
   }
 
   Future<void> checkDeviceSensors() async {

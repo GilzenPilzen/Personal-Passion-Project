@@ -343,51 +343,51 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                 ),
               ),
 
-              Container(
-                padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
-                // child: ClipRRect(
-                //   borderRadius: BorderRadius.all(Radius.circular(50)),
-                //   child: 
-                // ),
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: RaisedButton(
-                    color: color,
-                    padding: EdgeInsets.all(20),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    onPressed: () {
-                      if(products.length == 0){
-                        color = Colors.transparent;
-                        textColor = Colors.transparent;
-                        return null;
-                      } else {
-                        color = Colors.blue;
-                        textColor = Colors.white;
-                        if(Platform.isAndroid) {
-                          Navigator.push(context, 
-                            MaterialPageRoute(
-                              builder: (context) => ArCoreNavigator()
-                            )
-                          );
-                        }else if (Platform.isIOS) {
-                          Navigator.push(context, 
-                            MaterialPageRoute(
-                              builder: (context) => ArKitNavigator() 
-                            )
-                          );
-                        }
-                      }
-                    },
-                    child: Text('Start met winkelen'.toUpperCase(), style: 
-                      TextStyle(
-                        color: Colors.white
-                      ),
-                    )
-                  ),
-                )
-              ),
+              // Container(
+              //   padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
+              //   // child: ClipRRect(
+              //   //   borderRadius: BorderRadius.all(Radius.circular(50)),
+              //   //   child: 
+              //   // ),
+              //   child: SizedBox(
+              //     width: MediaQuery.of(context).size.width,
+              //     child: RaisedButton(
+              //       color: color,
+              //       padding: EdgeInsets.all(20),
+              //       shape: RoundedRectangleBorder(
+              //         borderRadius: BorderRadius.circular(10),
+              //       ),
+              //       onPressed: () {
+              //         if(products.length == 0){
+              //           color = Colors.transparent;
+              //           textColor = Colors.transparent;
+              //           return null;
+              //         } else {
+              //           color = Colors.blue;
+              //           textColor = Colors.white;
+              //           if(Platform.isAndroid) {
+              //             Navigator.push(context, 
+              //               MaterialPageRoute(
+              //                 builder: (context) => ArCoreNavigator()
+              //               )
+              //             );
+              //           }else if (Platform.isIOS) {
+              //             Navigator.push(context, 
+              //               MaterialPageRoute(
+              //                 builder: (context) => ArKitNavigator() 
+              //               )
+              //             );
+              //           }
+              //         }
+              //       },
+              //       child: Text('Start met winkelen'.toUpperCase(), style: 
+              //         TextStyle(
+              //           color: Colors.white
+              //         ),
+              //       )
+              //     ),
+              //   )
+              // ),
             ],
           ),
         ],  
