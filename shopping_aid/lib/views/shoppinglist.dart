@@ -6,12 +6,6 @@ import 'dart:io' show Platform;
 
 
 class ShoppingListView extends StatefulWidget{
-  
-
-  // ShoppingListView({this.data});
-  // void printData() {
-  //   print(data);
-  // }
   @override
   _ShoppingListViewState createState() => _ShoppingListViewState();
 }
@@ -115,66 +109,215 @@ class _ShoppingListViewState extends State<ShoppingListView> {
       children: [
         Expanded(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+            padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
             child: Container(
               child: 
+
+              // ListView.builder(
+              //   itemBuilder: (BuildContext context, int index){
+              //     return(
+              //       Column(
+              //         children: <Widget> [
+              //         Padding(
+              //           padding: EdgeInsets.all(5.0),
+              //           child: Container(
+              //             child: Card(  
+              //               color: Colors.blueGrey[900],
+              //               child: ListTile(
+              //                 leading: FlutterLogo(size: 56.0),
+              //                 title: Text(products[index]["name"], style: 
+              //                   TextStyle(
+              //                     color: Colors.white,
+              //                     fontWeight: FontWeight.bold
+              //                   ),
+              //                 ),
+              //                 subtitle: Text("2 pakken", style: 
+              //                   TextStyle(
+              //                     color: Colors.grey[400],
+              //                     fontWeight: FontWeight.normal
+              //                   ),
+              //                 ),
+              //                 trailing: 
+              //                   Wrap(
+              //                     alignment: WrapAlignment.center,
+              //                     spacing: 12,
+              //                     children: <Widget>[
+              //                       Column(
+              //                         mainAxisAlignment: MainAxisAlignment.center,
+              //                         crossAxisAlignment: CrossAxisAlignment.center,
+              //                         children: [
+              //                           Text(products[index]['price'], style: 
+              //                             TextStyle(
+              //                               fontSize: 20.0,
+              //                               color: Colors.white,
+              //                               fontWeight: FontWeight.bold,
+              //                             ),
+              //                           ),
+              //                         ],
+              //                       ),
+              //                       IconButton(
+              //                         icon: Icon(Icons.delete_forever_rounded, color: Colors.red),    
+              //                         onPressed: () {
+              //                           _removePrice(index, products[index]["price"]);
+              //                           _removeProduct(products[index]);
+              //                         }
+              //                       )
+              //                     ],
+              //                   ),    
+              //                 ) 
+              //               ),
+              //             )
+              //           ),
+              //         ] 
+              //       )
+              //     );
+              //   },
+
+              //   itemCount: products  == null ? 0 : products.length,
+              // )
               ListView.builder(
-                itemBuilder: (BuildContext context, int index){
-                  return(
-                    Column(
-                      children: <Widget> [
-                      Padding(
-                        padding: EdgeInsets.all(5.0),
-                        child: Card(  
-                          color: Colors.blueGrey[900],
-                          child: ListTile(
-                            leading: FlutterLogo(size: 56.0),
-                            title: Text(products[index]["name"], style: 
-                              TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold
-                              ),
-                            ),
-                            subtitle: Text("2 pakken", style: 
-                              TextStyle(
-                                color: Colors.grey[400],
-                                fontWeight: FontWeight.normal
-                              ),
-                            ),
-                            trailing: 
-                              Wrap(
-                                alignment: WrapAlignment.center,
-                                spacing: 12,
-                                children: <Widget>[
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Text(products[index]['price'], style: 
-                                        TextStyle(
-                                          fontSize: 20.0,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  IconButton(
-                                    icon: Icon(Icons.delete_forever_rounded, color: Colors.red),    
-                                    onPressed: () {
-                                      _removePrice(index, products[index]["price"]);
-                                      _removeProduct(products[index]);
-                                    }
-                                  )
-                                ],
-                              ),    
-                            ) 
-                          )
+                itemBuilder: (BuildContext context, int index) {
+                  return Column(
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.only(bottom: 10),
+                        decoration: BoxDecoration(
+                          borderRadius:BorderRadius.all(Radius.circular(10)),
+                          color: Colors.blueGrey[900]
                         ),
-                      ] 
-                    )
+                        padding: EdgeInsets.all(10),
+                        width: MediaQuery.of(context).size.width,
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Wrap(
+                                  alignment: WrapAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius:BorderRadius.all(Radius.circular(5)),
+                                        color: Colors.white
+                                      ),
+                                      padding: EdgeInsets.all(15),
+                                      child: Image(
+                                        width: 75,
+                                        image: AssetImage("assets/images/producten/cola.jpeg"),
+                                      ),
+                                    ),
+                                    Container(
+                                      height: 100,
+                                      width: 170,
+                                      padding: EdgeInsets.all(10),
+                                      alignment: Alignment.centerLeft,
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: <Widget> [
+                                          Text(products[index]["name"], style: 
+                                            TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold
+                                            ),
+                                          ),
+                                          Text("2 pakken", style: 
+                                            TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ]
+                                      ),
+                                    ),
+                                    Container(
+                                      width: 90,
+                                      alignment: Alignment.centerRight,
+                                      height: 100,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: <Widget>[
+                                          Text('€ ' + products[index]['price'], 
+                                          textAlign: TextAlign.right,
+                                          style: 
+                                            TextStyle(
+                                              fontSize: 20.0,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ]
+                                      )
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(top: 10),
+                              width: MediaQuery.of(context).size.width,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  SizedBox(
+                                    width: 310,
+                                    height: 45,
+                                    child: RaisedButton(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      color: Colors.blue,
+                                      child: Text('Navigate to product'.toUpperCase(), style: 
+                                        TextStyle(
+                                          color: Colors.white,
+                                        )
+                                      ,),
+                                      onPressed: () {
+                                         if(Platform.isAndroid) {
+                                          Navigator.push(context, 
+                                            MaterialPageRoute(
+                                              builder: (context) => ArCoreNavigator(
+                                                data: products[index],
+                                                latitude: products[index]['latitude'],
+                                                longitude: products[index]['longitude'],
+                                              )
+                                            )
+                                          );
+                                        }else if (Platform.isIOS) {
+                                          Navigator.push(context, 
+                                            MaterialPageRoute(
+                                              builder: (context) => ArKitNavigator() 
+                                            )
+                                          );
+                                        }
+                                      }
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 50,
+                                    height: 45,
+                                    child: RaisedButton(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      padding: EdgeInsets.all(0),
+                                      color: Colors.red,
+                                      child: Icon(Icons.delete_forever_rounded, color: Colors.white),   
+                                      onPressed: () {
+                                        _removePrice(index, products[index]["price"]);
+                                        _removeProduct(products[index]);
+                                      }
+                                    ),
+                                  )
+                                ]
+                              ),
+                            )
+                          ],
+                        )
+                      )
+                    ],
                   );
                 },
-                itemCount: products  == null ? 0 : products.length,
+                itemCount: products == null ? 0 : products.length,
               )
             ),
           ),
@@ -225,7 +368,7 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                         if(Platform.isAndroid) {
                           Navigator.push(context, 
                             MaterialPageRoute(
-                              builder: (context) => ArCoreNavigator(data: products)
+                              builder: (context) => ArCoreNavigator()
                             )
                           );
                         }else if (Platform.isIOS) {

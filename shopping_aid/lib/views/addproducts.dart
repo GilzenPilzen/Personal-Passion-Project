@@ -99,7 +99,6 @@ class _AddProductsViewState extends State<AddProductsView> {
                 return (
                   ListView.builder(
                     itemBuilder: (BuildContext context, int index) {
-                      
                       //Products card
                       return Container(
                         decoration: BoxDecoration(
@@ -133,7 +132,6 @@ class _AddProductsViewState extends State<AddProductsView> {
                                       )
                                     )
                                   ),
-
                                   //
                                   Flexible(
                                     child: Padding(
@@ -182,7 +180,6 @@ class _AddProductsViewState extends State<AddProductsView> {
                                       ),
                                     ),
                                   ),
-                                  
                                 ]
                               ),
                               Container(
@@ -221,7 +218,6 @@ class _AddProductsViewState extends State<AddProductsView> {
               },
             ),
           ),
-
         ],
       ),
     );

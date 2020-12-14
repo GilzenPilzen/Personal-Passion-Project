@@ -8,17 +8,27 @@ import 'package:geolocator/geolocator.dart';
 import 'package:geomag/geomag.dart';
 import 'package:splashscreen/splashscreen.dart';
 
+// class ArCoreNavigator extends StatefulWidget {
+//   // List data = [];
+//   // ArCoreNavigator({this.data});
+//   @override
+//   _ArCoreNavigatorState createState() => _ArCoreNavigatorState();
+//   // ArCoreNavigator({List this.data});
+  
+// }
 // ignore: must_be_immutable
 class ArCoreNavigator extends StatefulWidget {
-  List data = [];
-  ArCoreNavigator({Key key, @required this.data}) : super(key: key);
-  @override
-  _ArCoreNavigatorState createState() => _ArCoreNavigatorState(data);
-  // ArCoreNavigator({List this.data});
-  
-}
 
+  var data;
+  var latitude;
+  var longitude;
+  ArCoreNavigator({this.data, this.latitude, this.longitude});
+
+  @override
+  _ArCoreNavigatorState createState() => _ArCoreNavigatorState(data, latitude, longitude);
+}
 class _ArCoreNavigatorState extends State<ArCoreNavigator> {
+  
   var cords;
   ArCoreController arCoreController;
   var bearing;
@@ -27,16 +37,13 @@ class _ArCoreNavigatorState extends State<ArCoreNavigator> {
   var direction;
   var _declination ;
   var azimuth;
-  List data = [];
+  var data;
+  var index = 0;
+  var product;
+  var latitude;
+  var longitude;
 
-  _ArCoreNavigatorState(this.data);
-
-  void printData() {
-    print(data);
-  }
-
-  
-
+  _ArCoreNavigatorState(this.data, this.latitude, this.longitude);
 
   Future<double> _getDeclination(latitude, longitude, altitude) async {
     // ignore: await_only_futures
@@ -47,27 +54,17 @@ class _ArCoreNavigatorState extends State<ArCoreNavigator> {
     // ignore: dead_code
   }
 
-  // void _getInitialPositionWithDeclination() async {
-  //   final pos = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
-
-  //   if (pos != null){
-  //     _getDeclination(pos.latitude, pos.longitude, pos.latitude).then((dec) {
-  //       setState(() {
-  //         _declination = dec;
-  //       });
-  //     });
-  //   } else {
-  //     print("oesje, locatie is nog niet bepaald");
-  //   }  
-  // }
-
-
   void _getCurrentLocation() async {
     var position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
-    // print(position);
 
+
+    // print(position);
     setState(() {
-      bearing = Geolocator.bearingBetween(position.latitude, position.longitude, 50.8124388, 3.414989);
+      var latitudeDouble = double.parse(data['latitude']);
+      var longitudeDouble = double.parse(data['longitude']);
+      print(latitudeDouble);
+      print(longitudeDouble);
+      bearing = Geolocator.bearingBetween(position.latitude, position.longitude, latitudeDouble, longitudeDouble);
       print(bearing);  
       cords= position;
       print(cords);
@@ -88,13 +85,15 @@ class _ArCoreNavigatorState extends State<ArCoreNavigator> {
   @override
   void initState() {
     super.initState();
-    checkDeviceSensors();
-    _checkIfNull();
-    _getCurrentLocation();
-    printData();
-    //_getInitialPositionWithDeclination();
+    setState(() {
+      checkDeviceSensors();
+      _checkIfNull();
+      _getCurrentLocation();
+      // getProduct();
+      // _getInitialPositionWithDeclination();
+    });
+    
   }
-
 
   Future<void> checkDeviceSensors() async {
     int haveSensor;
@@ -127,17 +126,6 @@ class _ArCoreNavigatorState extends State<ArCoreNavigator> {
     });
   }
 
-  // _onArCoreViewCreated(ArCoreController _arcoreController) {
-  //   arCoreController = _arcoreController;
-  //   // _addSphere(arCoreController);
-  //   // _addCylinder(arCoreController);
-  // } 
-  
-  // void dispose() {
-  //   arCoreController.dispose();
-  //   super.dispose();
-  // }
-  
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -180,10 +168,10 @@ class _ArCoreNavigatorState extends State<ArCoreNavigator> {
                       azimuth = _declination + snapshot.data;
                       direction = azimuth - bearing;
                       var directHeading = double.parse((direction).toStringAsFixed(12));
-                      print(directHeading);
+                      // print(directHeading);
                       
-                      print(azimuth);
-                      print(direction);
+                      // print(azimuth);
+                      // print(direction);
                         return Padding(
                           padding: EdgeInsets.all(20),
                           child: Center(
@@ -235,7 +223,17 @@ class _ArCoreNavigatorState extends State<ArCoreNavigator> {
                         ),
                         child:Row(
                           children: [
-                            Text('Ververs de hoek'),
+                            Image(
+                              width: 75,
+                              image: AssetImage("assets/images/producten/cola.jpeg"),  
+                            ),
+                            // Text(product['name']),
+                            Text('Text'),
+                            RaisedButton(
+                              child: Icon(Icons.done),
+                              onPressed: () {
+                                // updateProduct();
+                              })
                           ],
                         ),
                       ),

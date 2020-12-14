@@ -8,8 +8,9 @@
         "unitprice": "2,15",
         "description": "",
         "amount": "15",
-        "latitude" : "",
-        "longtitude" : ""
+        "latitude" : "50.8124388",
+        "longitude" : "3.414989",
+        "color": "Colors.green"
     },
     {
         "id": 2,
@@ -20,8 +21,9 @@
         "unitprice": "2,15",
         "description": "",
         "amount": "15",
-        "latitude" : "",
-        "longtitude" : ""
+        "latitude" : "50.8124388",
+        "longitude" : "3.414989",
+        "color": "Colors.green"
     },
     {
         "id": 3,
@@ -32,7 +34,8 @@
         "unitprice": "2,15",
         "description": "",
         "amount": "15",
-        "latitude" : "",
-        "longtitude" : ""
+        "latitude" : "50.8124388",
+        "longitude" : "3.414989",
+        "color": "Colors.green"
     }
 ]

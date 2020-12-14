@@ -27,8 +27,6 @@ class MyApp extends StatelessWidget {
         onClick: ()=>print("Flutter Egypt"),
         loaderColor: Colors.transparent
       )
-      
-      
     );
   }
 }
