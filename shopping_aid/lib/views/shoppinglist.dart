@@ -112,69 +112,6 @@ class _ShoppingListViewState extends State<ShoppingListView> {
             padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
             child: Container(
               child: 
-
-              // ListView.builder(
-              //   itemBuilder: (BuildContext context, int index){
-              //     return(
-              //       Column(
-              //         children: <Widget> [
-              //         Padding(
-              //           padding: EdgeInsets.all(5.0),
-              //           child: Container(
-              //             child: Card(  
-              //               color: Colors.blueGrey[900],
-              //               child: ListTile(
-              //                 leading: FlutterLogo(size: 56.0),
-              //                 title: Text(products[index]["name"], style: 
-              //                   TextStyle(
-              //                     color: Colors.white,
-              //                     fontWeight: FontWeight.bold
-              //                   ),
-              //                 ),
-              //                 subtitle: Text("2 pakken", style: 
-              //                   TextStyle(
-              //                     color: Colors.grey[400],
-              //                     fontWeight: FontWeight.normal
-              //                   ),
-              //                 ),
-              //                 trailing: 
-              //                   Wrap(
-              //                     alignment: WrapAlignment.center,
-              //                     spacing: 12,
-              //                     children: <Widget>[
-              //                       Column(
-              //                         mainAxisAlignment: MainAxisAlignment.center,
-              //                         crossAxisAlignment: CrossAxisAlignment.center,
-              //                         children: [
-              //                           Text(products[index]['price'], style: 
-              //                             TextStyle(
-              //                               fontSize: 20.0,
-              //                               color: Colors.white,
-              //                               fontWeight: FontWeight.bold,
-              //                             ),
-              //                           ),
-              //                         ],
-              //                       ),
-              //                       IconButton(
-              //                         icon: Icon(Icons.delete_forever_rounded, color: Colors.red),    
-              //                         onPressed: () {
-              //                           _removePrice(index, products[index]["price"]);
-              //                           _removeProduct(products[index]);
-              //                         }
-              //                       )
-              //                     ],
-              //                   ),    
-              //                 ) 
-              //               ),
-              //             )
-              //           ),
-              //         ] 
-              //       )
-              //     );
-              //   },
-
-              //   itemCount: products  == null ? 0 : products.length,
-              // )
               ListView.builder(
                 itemBuilder: (BuildContext context, int index) {
                   return Column(
@@ -202,13 +139,13 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                                       padding: EdgeInsets.all(15),
                                       child: Image(
                                         width: 75,
-                                        image: AssetImage("assets/images/producten/cola.jpeg"),
+                                        image: AssetImage("assets/images/producten/" + products[index]['image']),
                                       ),
                                     ),
                                     Container(
-                                      height: 100,
+                                      height: 110,
                                       width: 170,
-                                      padding: EdgeInsets.all(10),
+                                      padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                                       alignment: Alignment.centerLeft,
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -221,7 +158,7 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                                               fontWeight: FontWeight.bold
                                             ),
                                           ),
-                                          Text("2 pakken", style: 
+                                          Text(products[index]['ail']+" | Plank: "+products[index]['plank'], style: 
                                             TextStyle(
                                               color: Colors.white,
                                             ),
@@ -232,7 +169,7 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                                     Container(
                                       width: 90,
                                       alignment: Alignment.centerRight,
-                                      height: 100,
+                                      height: 110,
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.end,
                                         children: <Widget>[

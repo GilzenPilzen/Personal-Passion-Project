@@ -247,7 +247,7 @@ class _ArCoreNavigatorState extends State<ArCoreNavigator> {
                           children: [
                             Image(
                               width: 75,
-                              image: AssetImage("assets/images/producten/cola.jpeg"),  
+                              image: AssetImage("assets/images/producten/"+data['image']),  
                             ),
                             // Text(product['name']),
                             Text('Text'),
