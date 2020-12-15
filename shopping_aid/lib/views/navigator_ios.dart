@@ -18,6 +18,7 @@ class _ArKitNavigatorState extends State<ArKitNavigator> {
   var cords;
   ArCoreController arCoreController;
   var bearing;
+  // ignore: unused_field
   int _haveSensor;
   String sensorType;
   var direction = 0;

@@ -22,6 +22,7 @@ class _ShoppingListViewState extends State<ShoppingListView> {
     setState(() {
       prices.removeAt(index);
       print(prices);
+      _updatePrices();
     }); 
   }
   _printPrices() {
@@ -352,6 +353,8 @@ class _ShoppingListViewState extends State<ShoppingListView> {
       } else {
         print("er zijn geen producten toegevoegd");
       }
+
+      _updatePrices();
     });
   }
 

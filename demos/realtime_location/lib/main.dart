@@ -34,11 +34,11 @@ class _MyAppState extends State<MyApp> {
 
   void _getCurrentLocation() async {
     position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
-    // print(position);
+    print(position);
 
     setState(() {
       bearing = Geolocator.bearingBetween(position.latitude, position.longitude, 52.3546274, 4.8285838);
-      print(bearing);  
+      print("bearing: $bearing");  
     });
 
     
