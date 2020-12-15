@@ -14,7 +14,7 @@
         "longitude" : "3.3375152",
         "color": "Colors.green",
         "ail" : "Drank",
-        "plank": "2"
+        "plank": "1"
     },
     {
         "id": 2,
@@ -31,7 +31,7 @@
         "longitude" : "3.3375152",
         "color": "Colors.green",
         "ail" : "Drank",
-        "plank": "2"
+        "plank": "1"
     },
     {
         "id": 3,
@@ -48,7 +48,7 @@
         "longitude" : "3.3375152",
         "color": "Colors.green",
         "ail" : "Drank",
-        "plank": "2"
+        "plank": "1"
     },
     {
         "id": 4,
@@ -82,7 +82,7 @@
         "longitude" : "3.3375515",
         "color": "Colors.green",
         "ail" : "Frigo inkom",
-        "plank": "2"
+        "plank": "5"
     },
     {
         "id": 6,
@@ -99,7 +99,7 @@
         "longitude" : "3.3376004",
         "color": "Colors.green",
         "ail" : "Diepvries",
-        "plank": "2"
+        "plank": "1"
     },
     {
         "id": 7,
@@ -116,7 +116,7 @@
         "longitude" : "3.3375852",
         "color": "Colors.green",
         "ail" : "Chips en wijnen",
-        "plank": "2"
+        "plank": "4"
     },
     {
       "id": 8,
@@ -133,6 +133,6 @@
       "longitude" : "3.3375917",
       "color": "Colors.green",
       "ail" : "Chips en wijnen",
-      "plank": "2"
+      "plank": "3"
     }
 ]

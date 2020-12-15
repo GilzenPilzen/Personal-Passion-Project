@@ -231,62 +231,148 @@ class _AllProductsViewState extends State<AllProductsView> {
                   width: 80,
                 ),
                 Container(
-                  decoration: BoxDecoration(
-                    borderRadius:BorderRadius.only(topLeft: Radius.circular(25), topRight: Radius.circular(25)),
-                    color: Colors.grey[800],
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(left: 15, right: 15),
-                        child: Center(
-                          child: Column(
-                            children: <Widget>[
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius:BorderRadius.all(Radius.circular(25)),
-                                  color: Colors.white
+                    height: 550,
+                    decoration: BoxDecoration(
+                      borderRadius:BorderRadius.only(topLeft: Radius.circular(25), topRight: Radius.circular(25)),
+                      color: Colors.grey[800],
+                    ),
+                    child: SingleChildScrollView(
+                      child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(left: 15, right: 15),
+                          child: Center(
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius:BorderRadius.all(Radius.circular(25)),
+                                    color: Colors.white
+                                  ),
+                                  padding: EdgeInsets.all(15),
+                                  margin: EdgeInsets.only(bottom: 35),
+                                  child: Image(
+                                    width: 150,
+                                    image: AssetImage("assets/images/producten/"+products["image"]),
+                                  )
                                 ),
-                                padding: EdgeInsets.all(15),
-                                margin: EdgeInsets.only(bottom: 35),
-                                child: Image(
-                                  width: 150,
-                                  image: AssetImage("assets/images/producten/cola.jpeg"),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      width: 250,
+                                      child: Text(products["name"].toUpperCase(), 
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold
+                                        )
+                                      ),
+                                    ),
+                                    Text("€ "+products["price"].toUpperCase(), 
+                                    style: TextStyle(
+                                        color: Colors.blue,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold
+                                      )
+                                    ),
+                                  ],
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 10, bottom: 25),
+                                  child: Container(
+                                    padding: EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey[900],
+                                      borderRadius: BorderRadius.all(Radius.circular(20))
+                                    ),
+                                    child: Text(products['ail']+ ' | Plank: ' + products['plank'], style: 
+                                      TextStyle(
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16
+                                      )
+                                    ,),
+                                  ),
+                                ),
+                                Container(
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(bottom: 10),
+                                        child: Text("Weight: ", style: 
+                                          TextStyle(
+                                            color: Colors.grey,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16
+                                          )
+                                        ),
+                                      ),
+                                      Text(products['weight']+products['unit'], style: 
+                                        TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16
+                                        )
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(bottom: 10),
+                                        child: Text("Unit price: ", style: 
+                                          TextStyle(
+                                            color: Colors.grey,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16
+                                          )
+                                        ),
+                                      ),
+                                      Text(products['unitprice']+'/'+products['unitamount'], style: 
+                                        TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16
+                                        )
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(bottom: 10),
+                                        child: Text("Desciption:", style: 
+                                          TextStyle(
+                                            color: Colors.grey,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16
+                                          )
+                                        ),
+                                      ),
+                                      Text(products['description'], style: 
+                                        TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16
+                                        )
+                                      ),
+                                    ],
+                                  ),
                                 )
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(products["name"].toUpperCase(), 
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold
-                                    )
-                                  ),
-                                  Text("€ "+products["price"].toUpperCase(), 
-                                  style: TextStyle(
-                                      color: Colors.blue,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold
-                                    )
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ) 
+                                
+                              ],
+                            ) 
+                          )
                         )
-                      )
-                    ],
-                  )
-                ),
-                Container(
-                  height: 350,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 25, bottom: 25),
-                    child: Text('Yoo'),
-                  )
+                      ],
+                    )
+                  ),
                 ),
                 Expanded(
                   child: Container(
